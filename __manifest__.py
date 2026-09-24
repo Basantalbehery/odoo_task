@@ -13,8 +13,8 @@
         'security/equipment_groups.xml',
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
-        'views/equipment_category_views.xml',
         'views/equipment_item_views.xml',
+        'views/equipment_category_views.xml',
         'views/equipment_loan_views.xml',
         'views/menus.xml'
     ],

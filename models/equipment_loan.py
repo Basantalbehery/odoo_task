@@ -5,7 +5,7 @@ from odoo.exceptions import ValidationError
 class EquipmentLoan(models.Model):
     _name = 'equipment.loan'
     _description = 'Equipment Loan'
-    order = 'loan_date desc, id desc'
+    _order = 'date_start desc, id desc'
 
     name = fields.Char(string='Loan Reference', required=True, copy=False, default='/', readonly=True)
     item_id = fields.Many2one('equipment.item', string='Equipment Item', required=True, ondelete='restrict')

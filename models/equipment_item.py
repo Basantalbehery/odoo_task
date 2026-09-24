@@ -9,8 +9,8 @@ class EquipmentItem(models.Model):
     category_id = fields.Many2one('equipment.category', string='Category', ondelete='restrict')
     image_1920= fields.Image(string='Image')
     active = fields.Boolean(string='Active', default=True)
-    company = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
-    currency_id = fields.Many2one('res.currency', string='Currency', related='company_id.currency_id')
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
+    currency_id = fields.Many2one('res.currency', string='Currency', related='company_id.currency_id', store=True)
     daily_rate =  fields.Monetary(string='Daily Rate', currency_field='currency_id')
     condition_score = fields.Integer(string='Condition Score', default=100)
     
