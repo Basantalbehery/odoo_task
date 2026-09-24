@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf=8"?>
+
+<odoo>
+    <data nounit="1">
+        <record id="module_category_equipment" model="ir.module.category">
+            <field name="name">Equipment Loan Management</field>
+            <field name="description">Manage equipment items, categories, and loan requests.</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_equipment_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_category_equipment"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Users who can request and view equipment loan.</field>
+        </record>
+
+        <record id="group_equipment_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_equipment"/>
+            <field name="implied_ids" eval="[(4, ref('group_equipment_user'))]"/>
+            <field name="comment">Full access to manage equipment, categories, and manage all loan.</field>
+        </record>
+    </data>
+</odoo>
