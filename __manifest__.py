@@ -19,6 +19,7 @@
         'views/equipment_item_views.xml',
         'views/equipment_category_views.xml',
         'views/equipment_loan_views.xml',
+        'report/equipment_loan_report.xml',
         'views/menus.xml'
     ],
     'installable': True,

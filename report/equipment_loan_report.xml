@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_equipment_loan" model="ir.actions.report">
+        <field name="name">Loan Receipt</field>
+        <field name="model">equipment.loan</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">porcelia_equipment_loan.report_loan_receipt_template</field>
+        <field name="report_file">porcelia_equipment_loan.report_loan_receipt_template</field>
+        <field name="print_report_name">'Loan_Receipt_' + (object.name or '').replace('/', '_')</field>
+        <field name="binding_model_id" ref="model_equipment_loan"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_loan_receipt_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Loan Receipt: <span t-field="o.name"/></h2>
+                        <hr/>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Borrower:</strong> <span t-field="o.borrower_id.name"/><br/>
+                                <strong>Equipment Item:</strong> <span t-field="o.item_id.name"/><br/>
+                                <strong>Item Code:</strong> <span t-field="o.item_id.code"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Start Date:</strong> <span t-field="o.date_start"/><br/>
+                                <strong>Due Date:</strong> <span t-field="o.date_due"/><br/>
+                                <strong>Return Date:</strong> <span t-field="o.date_return"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Daily Rate</th>
+                                    <th>Days Late</th>
+                                    <th>Penalty Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span t-field="o.daily_rate"/></td>
+                                    <td><span t-field="o.days_late"/></td>
+                                    <td><span t-field="o.penalty_amount"/></td>
+                                    <td><span t-field="o.state"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div t-if="o.notes" class="mt-3">
+                            <strong>Notes:</strong>
+                            <p t-field="o.notes"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
