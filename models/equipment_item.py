@@ -31,6 +31,7 @@ class EquipmentItem(models.Model):
     _sql_constraints = [
         ('code_company_unique', 'unique(code, company_id)', 'The item code must be unique per company.'),
     ]
+
     
     @api.depends('loan_ids.state')
     def _compute_state(self):

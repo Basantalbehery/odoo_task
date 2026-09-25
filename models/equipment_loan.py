@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from datetime import timedelta
 
 
 class EquipmentLoan(models.Model):
@@ -114,3 +115,56 @@ class EquipmentLoan(models.Model):
                     summary='Overdue Loan Notification',
                     user_id=loan.borrower_id.user_ids[:1].id or self.env.uid
                 )
+                
+                
+    @api.model
+    def get_dashboard_data(self, period='month'):
+        now = fields.Datetime.now()
+        if period == 'week':
+            start_date = now - timedelta(days=7)
+        elif period == 'month':
+            start_date = now - timedelta(days=30)
+        else:
+            start_date = None
+        
+        
+        loan_domain = []
+        if start_date:
+            loan_domain = [('create_date', '>=', start_date)]
+            
+            
+        total_items = self.env['equipment.item'].search_count([('active', '=', True)])
+        items_on_loan = self.env['equipment.item'].search_count([('state', '=', 'on_loan')])
+
+        
+        overdue_domain = [
+            ('state', '=', 'confirmed'),
+            ('date_due', '<', now)
+        ]
+        overdue_loans_count = self.search_count(overdue_domain)
+
+
+        total_penalties = 0.0
+
+
+        top_overdue_records = self.search(
+            overdue_domain,
+            order='days_late desc',
+            limit=5
+        )
+
+        top_overdue = [{
+            'id': loan.id,
+            'name': loan.name,
+            'item_name': loan.item_id.name,
+            'borrower_name': loan.borrower_id.name,
+            'days_late': loan.days_late,
+        } for loan in top_overdue_records]
+
+        return {
+            'total_items': total_items,
+            'items_on_loan': items_on_loan,
+            'overdue_loans': overdue_loans_count,
+            'total_penalties': total_penalties,
+            'top_overdue': top_overdue,
+        }

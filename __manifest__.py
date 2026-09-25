@@ -19,6 +19,7 @@
         'views/equipment_item_views.xml',
         'views/equipment_category_views.xml',
         'views/equipment_loan_views.xml',
+        'views/equipment_dashboard_views.xml',
         'report/equipment_loan_report.xml',
         'views/menus.xml'
     ],
@@ -30,6 +31,9 @@
             'porcelia_equipment_loan/static/src/components/condition_gauge/condition_gauge.js',
             'porcelia_equipment_loan/static/src/components/condition_gauge/condition_gauge.xml',
             'porcelia_equipment_loan/static/src/components/condition_gauge/condition_gauge.scss',
+            'porcelia_equipment_loan/static/src/components/dashboard/equipment_dashboard.js',
+            'porcelia_equipment_loan/static/src/components/dashboard/equipment_dashboard.xml',
+            'porcelia_equipment_loan/static/src/components/dashboard/equipment_dashboard.scss',
         ],
     },
 }

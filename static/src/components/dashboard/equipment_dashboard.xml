@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+    <t t-name="porcelia_equipment_loan.EquipmentDashboard">
+        <div class="o_equipment_dashboard p-4 bg-100 min-vh-100">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-primary mb-0">Equipment Overview</h2>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn" t-att-class="state.period === 'week' ? 'btn-primary' : 'btn-outline-primary'" t-on-click="() => this.setPeriod('week')">This Week</button>
+                    <button type="button" class="btn" t-att-class="state.period === 'month' ? 'btn-primary' : 'btn-outline-primary'" t-on-click="() => this.setPeriod('month')">This Month</button>
+                    <button type="button" class="btn" t-att-class="state.period === 'all' ? 'btn-primary' : 'btn-outline-primary'" t-on-click="() => this.setPeriod('all')">All Time</button>
+                </div>
+            </div>
+            <t t-if="state.loading">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0 rounded-3 p-3 bg-white">
+                            <div class="text-muted small">Total Active Items</div>
+                            <div class="fs-2 fw-bold text-dark"><t t-out="state.data.total_items"/></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0 rounded-3 p-3 bg-white">
+                            <div class="text-muted small">Items On Loan</div>
+                            <div class="fs-2 fw-bold text-info"><t t-out="state.data.items_on_loan"/></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0 rounded-3 p-3 bg-white">
+                            <div class="text-muted small">Overdue Loans</div>
+                            <div class="fs-2 fw-bold text-danger"><t t-out="state.data.overdue_loans"/></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0 rounded-3 p-3 bg-white">
+                            <div class="text-muted small">Total Penalties</div>
+                            <div class="fs-2 fw-bold text-warning"><t t-out="state.data.total_penalties"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow-sm border-0 rounded-3 p-4 bg-white">
+                    <h4 class="fw-bold mb-3">Top 5 Overdue Loans</h4>
+                    <t t-if="state.data.top_overdue.length === 0">
+                        <div class="alert alert-success mb-0 text-center">
+                            No overdue loans found for this period!
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Item</th>
+                                    <th>Borrower</th>
+                                    <th>Days Late</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.data.top_overdue" t-as="loan" t-key="loan.id">
+                                    <tr t-on-click="() => this.openLoan(loan.id)" style="cursor: pointer;">
+                                        <td class="fw-bold text-primary"><t t-out="loan.name"/></td>
+                                        <td><t t-out="loan.item_name"/></td>
+                                        <td><t t-out="loan.borrower_name"/></td>
+                                        <td><span class="badge bg-danger"><t t-out="loan.days_late"/> Days</span></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>
