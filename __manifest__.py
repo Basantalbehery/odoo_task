@@ -24,4 +24,12 @@
     ],
     'installable': True,
     'application': True,
+    
+    'assets': {
+        'web.assets_backend': [
+            'porcelia_equipment_loan/static/src/components/condition_gauge/condition_gauge.js',
+            'porcelia_equipment_loan/static/src/components/condition_gauge/condition_gauge.xml',
+            'porcelia_equipment_loan/static/src/components/condition_gauge/condition_gauge.scss',
+        ],
+    },
 }

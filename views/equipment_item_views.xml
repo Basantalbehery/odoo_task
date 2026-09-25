@@ -67,7 +67,7 @@
                         <group>
                             <field name="currency_id" invisible="1"/>
                             <field name="daily_rate"/>
-                            <field name="condition_score"/>
+                            <field name="condition_score" widget="condition_gauge" options="{'segments': 10}"/>
                             <field name="active"/>
                         </group>
                     </group>

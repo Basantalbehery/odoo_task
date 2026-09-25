@@ -1,0 +1,9 @@
+.o_condition_gauge {
+    .gauge-segment {
+        transition: background-color 0.2s ease-in-out, transform 0.1s;
+        &:hover {
+            opacity: 0.85;
+            transform: scaleY(1.1);
+        }
+    }
+}

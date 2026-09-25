@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+    <t t-name="porcelia_equipment_loan.ConditionGaugeField">
+        <div class="o_condition_gauge d-inline-flex align-items-center gap-2">
+            <div class="d-flex gap-1 align-items-center">
+                <t t-foreach="segment_array" t-as="i" t-key="i">
+                    <span 
+                        class="gauge-segment border rounded-1 cursor-pointer"
+                        t-att-class="{
+                            [gaugeColorClass]: i &lt; activeSegmentCount,
+                            'bg-light': i &gt;= activeSegmentCount
+                        }"
+                        t-att-style="'width: 12px; height: 20px; display: inline-block; cursor: ' + (props.readonly ? 'default' : 'pointer')"
+                        t-on-click="() => this.onSegmentClick(i)"
+                        t-att-title="'Set to ' + Math.round(((i + 1) / segments) * 100) + '%'"
+                    />
+                </t>
+            </div>
+            <span class="fw-bold fs-6">
+                <t t-out="score"/>%
+            </span>
+        </div>
+    </t>
+</templates>
