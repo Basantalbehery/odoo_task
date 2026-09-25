@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import timedelta
+import math
 
 
 class EquipmentLoan(models.Model):
@@ -20,7 +21,7 @@ class EquipmentLoan(models.Model):
     daily_rate = fields.Monetary(string='Daily Rate', related='item_id.daily_rate', store=True)
     total_price = fields.Monetary(string='Total Price', compute='_compute_total_price', store=True)
     days_late = fields.Integer(string='Days Late', compute='_compute_days_late', store=True)
-    
+    duration_days = fields.Integer(string='Duration (Days)', compute='_compute_duration_days', store=True)
     
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -37,6 +38,19 @@ class EquipmentLoan(models.Model):
         ('check_dates', 'CHECK (date_due >= date_start)', 'Due date must be greater than or equal to start date.'),
     ]
     
+    @api.depends('date_start', 'date_due', 'date_return', 'state')
+    def _compute_duration_days(self):
+        now = fields.Datetime.now()
+        for loan in self:
+            if loan.state in ['confirmed', 'returned'] and loan.date_start:
+                end_date = loan.date_return or loan.date_due or now
+                if end_date > loan.date_start:
+                    delta = end_date - loan.date_start
+                    loan.duration_days = max(math.ceil(delta.total_seconds() / 86400), 1)
+                    continue
+            loan.duration_days = 0
+
+
     @api.depends('date_start', 'date_due', 'daily_rate')
     def _compute_total_price(self):
         for loan in self:
@@ -52,9 +66,11 @@ class EquipmentLoan(models.Model):
         now = fields.Datetime.now()
         for loan in self:
             if loan.state == 'confirmed' and loan.date_due and now > loan.date_due:
-                loan.days_late = (now - loan.date_due).days
+                delta = now - loan.date_due
+                loan.days_late = math.ceil(delta.total_seconds() / 86400)
             elif loan.state == 'returned' and loan.date_due and loan.date_return and loan.date_return > loan.date_due:
-                loan.days_late = (loan.date_return - loan.date_due).days
+                delta = loan.date_return - loan.date_due
+                loan.days_late = math.ceil(delta.total_seconds() / 86400)
             else:
                 loan.days_late = 0
 

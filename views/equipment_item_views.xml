@@ -49,7 +49,7 @@
                             <field name="loan_count" widget="statinfo" string="Loans"/>
                         </button>
                         <button class="oe_stat_button" icon="fa-calendar" disabled="1">
-                            <field name="total_loan_days" widget="statinfo" string="Total Loan Days"/>
+                            <field name="total_days_on_loan" widget="statinfo" string="Total Loan Days"/>
                         </button>
                     </div>
                     <field name="image_1920" widget="image" class="oe_avatar"/>

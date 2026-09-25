@@ -5,37 +5,38 @@
         <field name="name">equipment.loan.form</field>
         <field name="model">equipment.loan</field>
         <field name="arch" type="xml">
-            <form string="Equipment Loan Request">
+            <form string="Equipment Loan">
                 <header>
-                    <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" invisible="state != 'draft'"/>
-                    <button name="action_return" type="object" string="Return Equipment" class="oe_highlight" invisible="state != 'confirmed'"/>
-                    <button name="action_cancel" type="object" string="Cancel" invisible="state not in ('draft', 'confirmed')"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,returned"/>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_return" string="Return Equipment" type="object" class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'confirmed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,returned,cancelled"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <field name="name" readonly="1"/>
+                            <field name="name"/>
                         </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="borrower_id"/>
                             <field name="item_id"/>
-                            <field name="company_id"/>
+                            <field name="borrower_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group>
                             <field name="date_start"/>
                             <field name="date_due"/>
-                            <field name="date_return"/>
+                            <field name="date_return" invisible="state != 'returned'"/>
+                            <field name="currency_id" invisible="1"/>
                             <field name="daily_rate"/>
                             <field name="total_price"/>
-                            <field name="days_late" readonly="1"/>
+                            <field name="days_late"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Notes">
-                            <field name="note" placeholder="Add internal notes..."/>
+                        <page string="Notes" name="notes">
+                            <field name="note" placeholder="Add additional details here..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -50,13 +51,28 @@
         <field name="arch" type="xml">
             <list string="Equipment Loans">
                 <field name="name"/>
-                <field name="borrower_id"/>
                 <field name="item_id"/>
+                <field name="borrower_id"/>
                 <field name="date_start"/>
                 <field name="date_due"/>
+                <field name="date_return"/>
                 <field name="total_price"/>
-                <field name="state" widget="badge"/>
+                <field name="days_late"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'confirmed'" decoration-success="state == 'returned'" decoration-danger="state == 'cancelled'"/>
             </list>
+        </field>
+    </record>
+
+
+    <record id="view_equipment_loan_search" model="ir.ui.view">
+        <field name="name">equipment.loan.search</field>
+        <field name="model">equipment.loan</field>
+        <field name="arch" type="xml">
+            <search string="Search Loans">
+                <field name="name"/>
+                <field name="item_id"/>
+                <field name="borrower_id"/>
+            </search>
         </field>
     </record>
 
@@ -65,5 +81,6 @@
         <field name="name">Equipment Loans</field>
         <field name="res_model">equipment.loan</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_equipment_loan_search"/>
     </record>
 </odoo>

@@ -25,7 +25,7 @@ class EquipmentItem(models.Model):
     
     loan_ids = fields.One2many('equipment.loan', 'item_id', string='Loans')
     loan_count = fields.Integer(string='Loan Count', compute='_compute_loan_date')
-    total_loan_days = fields.Integer(string='Total Loan Days', compute='_compute_loan_date')
+    total_days_on_loan = fields.Integer(string='Total Loan Days', compute='_compute_loan_date')
     
     
     _sql_constraints = [
@@ -46,25 +46,21 @@ class EquipmentItem(models.Model):
     
     @api.depends('loan_ids', 'loan_ids.state', 'loan_ids.date_start', 'loan_ids.date_due', 'loan_ids.date_return')            
     def _compute_loan_date(self):
-        loan_data = self.env['equipment.loan']._read_group(
+        count_data = self.env['equipment.loan']._read_group(
             [('item_id', 'in', self.ids)],
             ['item_id'],
             ['__count']
         )
-        count_map = {item.id: count for item, count in loan_data}
         
-        # days_data = self.env['equipment.loan'].read_group(
-        #     [('item_id', 'in', self.ids), ('state', 'in', ['confirmed', 'returned'])],
-        #     ['item_id'],
-        #     ['days_late:sum']
-        # )
+        count_map = {item.id: count for item, count in count_data}
+        
+        days_data = self.env['equipment.loan']._read_group(
+            [('item_id', 'in', self.ids), ('state', 'in', ['confirmed', 'returned'])],
+            ['item_id'],
+            ['duration_days:sum']
+        )
+        days_map = {item.id: days_sum for item, days_sum in days_data}
         
         for item in self:
             item.loan_count = count_map.get(item.id, 0)
-            confirmed_or_returned = item.loan_ids.filtered(lambda l: l.state in ['confirmed', 'returned'])
-            total_days= 0
-            for loan in confirmed_or_returned:
-                end_date = loan.date_return or loan.date_due or fields.Datetime.now()
-                if loan.date_start and end_date > loan.date_start:
-                    total_days += (end_date - loan.date_start).days
-            item.total_loan_days = total_days
+            item.total_days_on_loan = days_map.get(item.id, 0)
