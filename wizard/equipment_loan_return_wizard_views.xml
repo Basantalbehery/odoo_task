@@ -7,10 +7,12 @@
         <field name="arch" type="xml">
             <form string="Return Equipment">
                 <group>
-                    <field name="condition_score" widget="number"/>
+                    <field name="date_return"/>
+                    <field name="condition_score"/>
+                    <field name="note" placeholder="Add additional details about return condition..."/>
                 </group>
                 <footer>
-                    <button string="Confirm Return" type="object" name="action_apply_return" class="btn-primary"/>
+                    <button name="action_confirm_return" string="Confirm Return" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

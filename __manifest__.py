@@ -10,6 +10,7 @@
         'mail',
     ],
     'data': [
+        'data/demo_data.xml',
         'security/equipment_groups.xml',
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
@@ -23,8 +24,8 @@
         'report/equipment_loan_report.xml',
         'views/menus.xml'
     ],
-    'installable': True,
-    'application': True,
+    
+    'demo': [],
     
     'assets': {
         'web.assets_backend': [
@@ -34,6 +35,12 @@
             'porcelia_equipment_loan/static/src/components/dashboard/equipment_dashboard.js',
             'porcelia_equipment_loan/static/src/components/dashboard/equipment_dashboard.xml',
             'porcelia_equipment_loan/static/src/components/dashboard/equipment_dashboard.scss',
+            'porcelia_equipment_loan/static/src/components/overdue_systray/overdue_systray.js',
+            'porcelia_equipment_loan/static/src/components/overdue_systray/overdue_systray.xml',
+            'porcelia_equipment_loan/static/src/components/overdue_systray/overdue_systray.js',
         ],
     },
+    
+    'installable': True,
+    'application': True,
 }

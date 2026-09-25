@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-    <record id="view_users_from_inherit_equipment" model="ir.ui.view">
-        <field name="name">res.users.from.inherit.equipment</field>
+    <record id="view_users_form_inherit_equipment" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.equipment</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
-                <page string="Equipment Loans">
-                    <field name="equipment_loan_ids" readonly="1"/>
-                </page>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_user_loans"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-cubes"
+                        groups="porcelia_equipment_loan.group_equipment_user">
+                    <field name="equipment_loan_count" widget="statinfo" string="Loans"/>
+                </button>
             </xpath>
         </field>
     </record>

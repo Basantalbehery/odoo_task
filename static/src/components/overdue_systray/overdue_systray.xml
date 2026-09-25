@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+    <t t-name="porcelia_equipment_loan.OverdueSystray">
+        <div class="o_nav_entry dropdown me-2 cursor-pointer" t-on-click="onClick" title="Overdue Equipment Loans">
+            <i class="fa fa-clock-o text-danger fs-5"/>
+            <span t-if="state.overdueCount > 0" class="badge rounded-pill bg-danger ms-1">
+                <t t-esc="state.overdueCount"/>
+            </span>
+        </div>
+    </t>
+</templates>

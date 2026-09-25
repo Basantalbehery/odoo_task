@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="demo_category_laptops" model="equipment.category">
+        <field name="name">Laptops &amp; Computers</field>
+    </record>
+
+    <record id="demo_category_measuring" model="equipment.category">
+        <field name="name">Tile-Measuring Devices</field>
+    </record>
+
+    <record id="demo_category_displays" model="equipment.category">
+        <field name="name">Display Stands &amp; Cases</field>
+    </record>
+
+
+    <record id="demo_item_1" model="equipment.item">
+        <field name="name">Dell XPS 15</field>
+        <field name="code">LAP-XPS-01</field>
+        <field name="category_id" ref="demo_category_laptops"/>
+        <field name="daily_rate">150.00</field>
+        <field name="condition_score">95</field>
+    </record>
+
+    <record id="demo_item_2" model="equipment.item">
+        <field name="name">MacBook Pro M3</field>
+        <field name="code">LAP-MBP-02</field>
+        <field name="category_id" ref="demo_category_laptops"/>
+        <field name="daily_rate">250.00</field>
+        <field name="condition_score">100</field>
+    </record>
+
+    <record id="demo_item_3" model="equipment.item">
+        <field name="name">Laser Distance Meter X1</field>
+        <field name="code">MSR-LSR-01</field>
+        <field name="category_id" ref="demo_category_measuring"/>
+        <field name="daily_rate">80.00</field>
+        <field name="condition_score">85</field>
+    </record>
+
+    <record id="demo_item_4" model="equipment.item">
+        <field name="name">Digital Tile Caliper Pro</field>
+        <field name="code">MSR-CLP-02</field>
+        <field name="category_id" ref="demo_category_measuring"/>
+        <field name="daily_rate">60.00</field>
+        <field name="condition_score">70</field>
+    </record>
+
+    <record id="demo_item_5" model="equipment.item">
+        <field name="name">Exhibition Display Stand A</field>
+        <field name="code">DSP-STD-01</field>
+        <field name="category_id" ref="demo_category_displays"/>
+        <field name="daily_rate">120.00</field>
+        <field name="condition_score">60</field>
+    </record>
+
+
+    <record id="demo_loan_draft" model="equipment.loan">
+        <field name="item_id" ref="demo_item_1"/>
+        <field name="borrower_id" ref="base.user_admin"/>
+        <field name="date_start">2026-10-01 09:00:00</field>
+        <field name="date_due">2026-10-05 09:00:00</field>
+        <field name="state">draft</field>
+    </record>
+
+
+    <record id="demo_loan_confirmed" model="equipment.loan">
+        <field name="item_id" ref="demo_item_2"/>
+        <field name="borrower_id" ref="base.user_admin"/>
+        <field name="date_start">2026-09-20 09:00:00</field>
+        <field name="date_due">2026-09-30 09:00:00</field>
+        <field name="state">confirmed</field>
+    </record>
+
+
+    <record id="demo_loan_returned" model="equipment.loan">
+        <field name="item_id" ref="demo_item_3"/>
+        <field name="borrower_id" ref="base.user_admin"/>
+        <field name="date_start">2026-09-01 09:00:00</field>
+        <field name="date_due">2026-09-10 09:00:00</field>
+        <field name="date_return">2026-09-08 09:00:00</field>
+        <field name="state">returned</field>
+    </record>
+
+
+    <record id="demo_loan_cancelled" model="equipment.loan">
+        <field name="item_id" ref="demo_item_4"/>
+        <field name="borrower_id" ref="base.user_admin"/>
+        <field name="date_start">2026-10-10 09:00:00</field>
+        <field name="date_due">2026-10-15 09:00:00</field>
+        <field name="state">cancelled</field>
+    </record>
+</odoo>
