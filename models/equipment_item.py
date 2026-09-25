@@ -40,7 +40,10 @@ class EquipmentItem(models.Model):
                 item.state = 'on_loan'
             elif item.state not in ['maintenance', 'scrapped']:
                 item.state = 'available'
-                
+            else:
+                item.state = item.state
+    
+    @api.depends('loan_ids', 'loan_ids.state', 'loan_ids.date_start', 'loan_ids.date_due', 'loan_ids.date_return')            
     def _compute_loan_date(self):
         loan_data = self.env['equipment.loan']._read_group(
             [('item_id', 'in', self.ids)],
@@ -49,11 +52,11 @@ class EquipmentItem(models.Model):
         )
         count_map = {item.id: count for item, count in loan_data}
         
-        days_data = self.env['equipment.loan'].read_group(
-            [('item_id', 'in', self.ids), ('state', 'in', ['confirmed', 'returned'])],
-            ['item_id'],
-            ['days_late:sum']
-        )
+        # days_data = self.env['equipment.loan'].read_group(
+        #     [('item_id', 'in', self.ids), ('state', 'in', ['confirmed', 'returned'])],
+        #     ['item_id'],
+        #     ['days_late:sum']
+        # )
         
         for item in self:
             item.loan_count = count_map.get(item.id, 0)

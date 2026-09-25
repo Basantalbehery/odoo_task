@@ -36,7 +36,22 @@
         <field name="model">equipment.item</field>
         <field name="arch" type="xml">
             <form string="Equipment Item">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="available,on_loan,maintenance,scrapped"/>
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_equipment_loan)d" 
+                                type="action" 
+                                class="oe_stat_button" 
+                                icon="fa-list-alt"
+                                context="{'search_default_item_id': id}">
+                            <field name="loan_count" widget="statinfo" string="Loans"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-calendar" disabled="1">
+                            <field name="total_loan_days" widget="statinfo" string="Total Loan Days"/>
+                        </button>
+                    </div>
                     <field name="image_1920" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
                         <h1>
