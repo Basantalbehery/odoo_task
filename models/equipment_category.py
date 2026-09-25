@@ -24,6 +24,7 @@ class EquipmentCategory(models.Model):
             else:
                 category.complete_name = category.name
 
+    @api.depends('child_ids')
     def _compute_item_count(self):
         read_group_res = self.env['equipment.item'].read_group(
             [('category_id', 'in', self.ids)],

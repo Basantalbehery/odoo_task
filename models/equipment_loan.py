@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 class EquipmentLoan(models.Model):
     _name = 'equipment.loan'
     _description = 'Equipment Loan'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'date_start desc, id desc'
 
     name = fields.Char(string='Loan Reference', required=True, copy=False, default='/', readonly=True)
@@ -87,3 +88,29 @@ class EquipmentLoan(models.Model):
         for loan in self:
             if loan.state in ['draft', 'confirmed']:
                 loan.state = 'cancelled'
+                
+                
+    @api.ondelete(at_uninstall=False)
+    def _check_unlink(self):
+        for loan in self:
+            if loan.state not in ['draft', 'cancelled']:
+                raise ValidationError("You can only delete draft or cancelled loans.")
+
+    @api.model
+    def _cron_check_overdue_loans(self):
+        overdue_loans = self.search([
+            ('state', '=', 'confirmed'),
+            ('date_due', '<', fields.Datetime.now())
+        ])
+        for loan in overdue_loans:
+            existing_activity = self.env['mail.activity'].search([
+                ('res_model', '=', 'equipment.loan'),
+                ('res_id', '=', loan.id),
+                ('summary', '=', 'Overdue Loan Notification')
+            ])
+            if not existing_activity:
+                loan.activity_schedule(
+                    'mail.mail_activity_data_warning',
+                    summary='Overdue Loan Notification',
+                    user_id=loan.borrower_id.user_ids[:1].id or self.env.uid
+                )
