@@ -8,7 +8,7 @@ class EquipmentCategory(models.Model):
     _order = 'complete_name'
 
     name = fields.Char(string='Category Name', required=True, translate=True)
-    complete_name = fields.Char(string='Complete Name', compute='_compute_complete_name')
+    complete_name = fields.Char(string='Complete Name', compute='_compute_complete_name', store=True)
     parent_id = fields.Many2one('equipment.category', string='Parent Category', index=True, ondelete='cascade')
     child_ids = fields.One2many('equipment.category', 'parent_id', string='Child Categories')
     parent_path = fields.Char(index=True)
