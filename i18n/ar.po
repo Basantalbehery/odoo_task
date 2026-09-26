@@ -1,0 +1,204 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* porcelia_equipment_loan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-26 00:00+0000\n"
+"PO-Revision-Date: 2026-09-26 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+
+# ===================================================
+# 1. Menus & Actions (القوائم الرئيسية والنوافذ)
+# ===================================================
+
+#. module: porcelia_equipment_loan
+#: model:ir.ui.menu,name:porcelia_equipment_loan.menu_equipment_root
+#: model:ir.actions.act_window,name:porcelia_equipment_loan.action_equipment_loan
+msgid "Equipment Loans"
+msgstr "إعارات المعدات"
+
+#. module: porcelia_equipment_loan
+#: model:ir.ui.menu,name:porcelia_equipment_loan.menu_equipment_dashboard
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+#. module: porcelia_equipment_loan
+#: model:ir.ui.menu,name:porcelia_equipment_loan.menu_equipment_loans
+msgid "Loans"
+msgstr "الإعارات"
+
+#. module: porcelia_equipment_loan
+#: model:ir.ui.menu,name:porcelia_equipment_loan.menu_equipment_items
+#: model:ir.actions.act_window,name:porcelia_equipment_loan.action_equipment_item
+msgid "Equipment Items"
+msgstr "المعدات"
+
+#. module: porcelia_equipment_loan
+#: model:ir.ui.menu,name:porcelia_equipment_loan.menu_equipment_config
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: porcelia_equipment_loan
+#: model:ir.ui.menu,name:porcelia_equipment_loan.menu_equipment_category
+#: model:ir.actions.act_window,name:porcelia_equipment_loan.action_equipment_category
+msgid "Categories"
+msgstr "الفئات"
+
+
+# ===================================================
+# 2. Model Fields & Labels (حقول البيانات والأعمدة)
+# ===================================================
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__equipment_id
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_item__name
+msgid "Equipment Item"
+msgstr "المعدة"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_category__parent_id
+msgid "Parent Category"
+msgstr "الفئة الأب"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_item__daily_rate
+msgid "Daily Rate"
+msgstr "السعر اليومي"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__total_price
+msgid "Total Price"
+msgstr "إجمالي السعر"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__days_late
+msgid "Days Late"
+msgstr "أيام التأخير"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__borrower_id
+msgid "Borrower"
+msgstr "المستعير"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__date_start
+msgid "Start Date"
+msgstr "تاريخ البدء"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__date_due
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__date_return
+msgid "Return Date"
+msgstr "تاريخ الإرجاع"
+
+#. module: porcelia_equipment_loan
+#: model:ir.model.fields,field_description:porcelia_equipment_loan.field_equipment_loan__notes
+msgid "Notes"
+msgstr "ملاحظات"
+
+
+# ===================================================
+# 3. States & Selections (حالات الإعارة)
+# ===================================================
+
+#. module: porcelia_equipment_loan
+#: selection:equipment.loan,state:0
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: porcelia_equipment_loan
+#: selection:equipment.loan,state:0
+msgid "Confirmed"
+msgstr "مؤكد"
+
+#. module: porcelia_equipment_loan
+#: selection:equipment.loan,state:0
+msgid "Returned"
+msgstr "تم الإرجاع"
+
+#. module: porcelia_equipment_loan
+#: selection:equipment.loan,state:0
+msgid "Cancelled"
+msgstr "ملغى"
+
+
+# ===================================================
+# 4. Dashboard & OWL Components (لوحة التحكم والنصوص التفاعلية)
+# ===================================================
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "Equipment Overview"
+msgstr "نظرة عامة على المعدات"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "Total Active Items"
+msgstr "إجمالي المعدات النشطة"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "Items On Loan"
+msgstr "المعدات المعارة حالياً"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "Overdue Loans"
+msgstr "الإعارات المتأخرة"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "Total Penalties"
+msgstr "إجمالي الغرامات"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "Top 5 Overdue Loans"
+msgstr "أعلى 5 إعارات متأخرة"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "No overdue loans found for this period!"
+msgstr "لا توجد إعارات متأخرة لهذه الفترة!"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "This Week"
+msgstr "هذا الأسبوع"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "This Month"
+msgstr "هذا الشهر"
+
+#. module: porcelia_equipment_loan
+#: code:addons/porcelia_equipment_loan/static/src/dashboard/equipment_dashboard.xml:0
+#, python-format
+msgid "All Time"
+msgstr "كل الأوقات"

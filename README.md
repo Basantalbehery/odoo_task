@@ -82,3 +82,8 @@ porcelia_equipment_loan/
 
 ## Screenshots
 static/description
+
+
+## 🌐 Localization & i18n
+- **Full Arabic Language Support:** Includes complete translation files (`i18n/ar.po`) covering all models, views, menus, action labels, dashboard components, and system messages.
+- **RTL Interface Compatibility:** Fully compatible with Right-to-Left (RTL) layout when Arabic language is selected in Odoo user preferences.
