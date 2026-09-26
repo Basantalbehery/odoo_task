@@ -30,7 +30,7 @@ export class OverdueSystray extends Component {
             name: "Overdue Loans",
             type: "ir.actions.act_window",
             res_model: "equipment.loan",
-            view_mode: "list,form",
+            views: [[false, "list"], [false, "form"]],
             domain: [["state", "=", "confirmed"], ["date_due", "<", today]],
             target: "current",
         });

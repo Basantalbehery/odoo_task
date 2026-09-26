@@ -78,3 +78,7 @@ porcelia_equipment_loan/
 │   └── test_equipment_loan.py
 ├── __manifest__.py
 └── README.md
+
+
+## Screenshots
+static/description
