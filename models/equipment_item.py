@@ -4,15 +4,15 @@ class EquipmentItem(models.Model):
     _name = 'equipment.item'
     _description = 'Equipment Item'
 
-    name = fields.Char(string='Item Name', required=True)
-    code = fields.Char(string='Item Code', required=True, copy=False, default='/')
-    category_id = fields.Many2one('equipment.category', string='Category', ondelete='restrict')
-    image_1920= fields.Image(string='Image')
-    active = fields.Boolean(string='Active', default=True)
-    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
-    currency_id = fields.Many2one('res.currency', string='Currency', related='company_id.currency_id', store=True)
-    daily_rate =  fields.Monetary(string='Daily Rate', currency_field='currency_id')
-    condition_score = fields.Integer(string='Condition Score', default=100)
+    name = fields.Char(string='Item Name', required=True, help="The name of the equipment item.")
+    code = fields.Char(string='Item Code', required=True, copy=False, default='/', index=True, help="A unique code for the equipment item.")
+    category_id = fields.Many2one('equipment.category', string='Category', ondelete='restrict', index=True, help="The category to which the equipment item belongs.")
+    image_1920= fields.Image(string='Image', help="An image representing the equipment item.")
+    active = fields.Boolean(string='Active', default=True, index=True, help="Indicates whether the equipment item is active.")
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, help="The company that owns the equipment item.")
+    currency_id = fields.Many2one('res.currency', string='Currency', related='company_id.currency_id', store=True, help="The currency used for the equipment item.")
+    daily_rate =  fields.Monetary(string='Daily Rate', currency_field='currency_id', help="The daily rental rate for the equipment item.")
+    condition_score = fields.Integer(string='Condition Score', default=100, help="A score representing the condition of the equipment item, ranging from 0 (poor) to 100 (excellent).")
     
     
     state =  fields.Selection([
@@ -20,12 +20,12 @@ class EquipmentItem(models.Model):
         ('on_loan', 'On Loan'),
         ('maintenance', 'Maintenance'),
         ('scrapped', 'Scrapped'),
-    ], string='State', default='available', compute='_compute_state', store=True)
+    ], string='State', default='available', compute='_compute_state', store=True, index=True, help="The current state of the equipment item, indicating whether it is available, on loan, under maintenance, or scrapped.")
     
     
-    loan_ids = fields.One2many('equipment.loan', 'item_id', string='Loans')
-    loan_count = fields.Integer(string='Loan Count', compute='_compute_loan_date')
-    total_days_on_loan = fields.Integer(string='Total Loan Days', compute='_compute_loan_date')
+    loan_ids = fields.One2many('equipment.loan', 'item_id', string='Loans', help="The loans associated with the equipment item.")
+    loan_count = fields.Integer(string='Loan Count', compute='_compute_loan_date', help="The number of loans for the equipment item.")
+    total_days_on_loan = fields.Integer(string='Total Loan Days', compute='_compute_loan_date', help="The total number of days the equipment item has been on loan.")
     
     
     _sql_constraints = [

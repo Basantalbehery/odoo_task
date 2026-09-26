@@ -7,13 +7,13 @@ class EquipmentCategory(models.Model):
     _rec_name = 'complete_name'
     _order = 'complete_name'
 
-    name = fields.Char(string='Category Name', required=True, translate=True)
-    complete_name = fields.Char(string='Complete Name', compute='_compute_complete_name', store=True)
-    parent_id = fields.Many2one('equipment.category', string='Parent Category', index=True, ondelete='cascade')
-    child_ids = fields.One2many('equipment.category', 'parent_id', string='Child Categories')
-    parent_path = fields.Char(index=True)
-    item_ids = fields.One2many('equipment.item', 'category_id', string='Items')
-    item_count = fields.Integer(string='Item Count', compute='_compute_item_count')
+    name = fields.Char(string='Category Name', required=True, translate=True, help="The name of the equipment category.")
+    complete_name = fields.Char(string='Complete Name', compute='_compute_complete_name', store=True, help="The full name of the category, including parent categories.")
+    parent_id = fields.Many2one('equipment.category', string='Parent Category', index=True, ondelete='cascade', help="The parent category of this equipment category.")
+    child_ids = fields.One2many('equipment.category', 'parent_id', string='Child Categories', help="The child categories of this equipment category.")
+    parent_path = fields.Char(index=True, help="The path of the category, including parent categories.")
+    item_ids = fields.One2many('equipment.item', 'category_id', string='Items', help="The items in this equipment category.")
+    item_count = fields.Integer(string='Item Count', compute='_compute_item_count', help="The number of items in this equipment category.")
 
 
     @api.depends('name', 'parent_id.complete_name')

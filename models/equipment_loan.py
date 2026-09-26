@@ -10,28 +10,28 @@ class EquipmentLoan(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'date_start desc, id desc'
 
-    name = fields.Char(string='Loan Reference', required=True, copy=False, default='/', readonly=True)
-    item_id = fields.Many2one('equipment.item', string='Equipment Item', required=True, ondelete='restrict')
-    borrower_id = fields.Many2one('res.partner', string='Borrower', required=True)
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
-    currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
-    date_start = fields.Datetime(string='Start Date', default=fields.Datetime.now, required=True)
-    date_due = fields.Datetime(string='Due Date', required=True)
-    date_return = fields.Datetime(string='Actual Return Date', readonly=True)
-    daily_rate = fields.Monetary(string='Daily Rate', related='item_id.daily_rate', store=True)
-    total_price = fields.Monetary(string='Total Price', compute='_compute_total_price', store=True)
-    days_late = fields.Integer(string='Days Late', compute='_compute_days_late', store=True)
-    duration_days = fields.Integer(string='Duration (Days)', compute='_compute_duration_days', store=True)
-    
+    name = fields.Char(string='Loan Reference', required=True, copy=False, default='/', readonly=True, help="A unique reference for the equipment loan, automatically generated.")
+    item_id = fields.Many2one('equipment.item', string='Equipment Item', required=True, ondelete='restrict', index=True, help="The equipment item being loaned.")
+    borrower_id = fields.Many2one('res.partner', string='Borrower', required=True, index=True, help="The partner who borrowed the equipment.")
+    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company, help="The company that owns the equipment loan.")
+    currency_id = fields.Many2one('res.currency', related='company_id.currency_id', help="The currency used for the equipment loan.", store=True)
+    date_start = fields.Datetime(string='Start Date', default=fields.Datetime.now, required=True, index=True, help="The date and time when the equipment loan starts.")
+    date_due = fields.Datetime(string='Due Date', required=True, index=True, help="The date and time when the equipment loan is due.")
+    date_return = fields.Datetime(string='Actual Return Date', readonly=True, help="The date and time when the equipment was actually returned.")
+    daily_rate = fields.Monetary(string='Daily Rate', related='item_id.daily_rate', store=True, help="The daily rental rate for the equipment item.")
+    total_price = fields.Monetary(string='Total Price', compute='_compute_total_price', store=True, help="The total price for the equipment loan, calculated based on the daily rate and duration.")
+    days_late = fields.Integer(string='Days Late', compute='_compute_days_late', store=True, help="The number of days the equipment loan is late, calculated based on the due date and actual return date.")
+    duration_days = fields.Integer(string='Duration (Days)', compute='_compute_duration_days', store=True, help="The duration of the equipment loan in days.")
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),
         ('returned', 'Returned'),
         ('cancelled', 'Cancelled'),
-    ], string='State', default='draft', required=True, tracking=True)
+    ], string='State', default='draft', required=True, tracking=True, index=True, help="The current state of the equipment loan, indicating whether it is in draft, confirmed, returned, or cancelled.")
 
 
-    note = fields.Text(string='Notes')
+    note = fields.Text(string='Notes', help="Additional notes about the equipment loan.")
     
     
     _sql_constraints = [
@@ -160,7 +160,12 @@ class EquipmentLoan(models.Model):
         overdue_loans_count = self.search_count(overdue_domain)
 
 
-        total_penalties = 0.0
+        aggregated_penalties = self._read_group(
+            loan_domain,
+            [],
+            ['total_price:sum']
+        )
+        total_penalties = aggregated_penalties[0][0] if aggregated_penalties and aggregated_penalties[0][0] else 0.0
 
 
         top_overdue_records = self.search(
